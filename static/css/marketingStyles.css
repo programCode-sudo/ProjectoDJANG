@@ -1,0 +1,59 @@
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    overflow-x: hidden; /* Para ocultar el desplazamiento horizontal */
+}
+
+/* Navbar */
+.navbar {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Asegura que el navbar esté sobre el sidebar */
+}
+
+/* Sidebar */
+.sidebar {
+    background-color: #222;
+    color: white;
+    padding: 20px;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: -250px; /* Inicialmente oculto */
+    height: 100%;
+    transition: left 0.3s; /* Transición suave al mostrar/ocultar */
+    z-index: 999; /* Asegura que el sidebar esté sobre el contenido */
+}
+
+/* Botón de toggle para mostrar/ocultar el sidebar */
+.toggle-btn {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+/* Contenedor principal */
+.main-content {
+    margin-left: 250px; /* Ajusta el margen izquierdo para dejar espacio para el sidebar */
+    padding: 20px;
+}
+
+.sidebar a {
+    display: block; /* Mostrar cada enlace en su propia línea */
+    margin-bottom: 10px; /* Agregar espacio entre cada enlace */
+}

@@ -60,3 +60,9 @@ def marketing(request):
     else:
         error_message = "You must be logged in to access the marketing page."
         return HttpResponseRedirect(reverse('home') + f"?error={error_message}") # type: ignore
+    
+
+@login_required
+def marketing(request):
+    user = request.user  # Obtenemos el usuario autenticado
+    return render(request, 'marketing.html', {'user': user})

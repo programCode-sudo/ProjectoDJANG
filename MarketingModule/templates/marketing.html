@@ -1,1 +1,60 @@
-<h1>hola<h1>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Page</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/marketingStyles.css' %}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div>
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Services</a>
+            <a href="#">Contact</a>
+        </div>
+        <!-- Botón de toggle para el sidebar -->
+        <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <!-- Nombre de usuario -->
+        
+    
+        <!-- Lista de enlaces -->
+        <h2>{% if user.is_authenticated %}
+            <div class="user-info">
+                <img width="16" height="16" src="https://img.icons8.com/officel/16/user.png" alt="user">
+                <span style="color: white;">{{ user.username }}</span>
+            </div>
+            {% endif %}</h2>
+        
+        <a href="#">Link 1</a>
+        <a href="#">Link 2</a>
+        <a href="#">Link 3</a>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="main-content">
+        <h1>Welcome to the Marketing Page</h1>
+        <p>This is the content of the marketing page.</p>
+        <!-- Agrega más contenido según sea necesario -->
+    </div>
+
+    <!-- Script para controlar la visibilidad del sidebar -->
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            if (sidebar.style.left === "0px") {
+                sidebar.style.left = "-250px";
+            } else {
+                sidebar.style.left = "0px";
+            }
+        }
+    </script>
+</body>
+</html>
