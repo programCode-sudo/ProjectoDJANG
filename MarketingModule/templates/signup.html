@@ -55,12 +55,17 @@
                 transform: scale(1.1);
             }
         }
+        p{
+            color:red;
+            text-align:center
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <p>{{error}}<p>
         <h1>Signup</h1>
-        <form method="post">
+        <form method="POST" action="/signup/">
             {% csrf_token %}
             <label for="id_username">Username:</label>
             {{ form.username }}

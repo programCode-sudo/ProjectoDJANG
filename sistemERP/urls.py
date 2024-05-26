@@ -20,5 +20,6 @@ from MarketingModule import views;
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.hellowTest)
+    path('',views.home),
+    path('signup/',views.signup)
 ]
