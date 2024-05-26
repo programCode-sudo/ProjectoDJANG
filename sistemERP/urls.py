@@ -20,6 +20,9 @@ from MarketingModule import views;
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.home),
-    path('signup/',views.signup)
+    path('', views.home, name='home'),
+    path('signup/', views.signup, name='signup'),
+    path('login/', views.signin, name='login'),
+    path('logout/', views.signout, name='logout'),
+    path('marketing/', views.marketing, name='marketing'),
 ]
