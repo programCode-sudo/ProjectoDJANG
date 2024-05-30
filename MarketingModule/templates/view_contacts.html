@@ -1,9 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Contacts</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/viewContact.css' %}">
 </head>
 <body>
     <h1>Contactos</h1>
@@ -25,8 +27,8 @@
                     <td>{{ contact.last_name }}</td>
                     <td>{{ contact.phone_number }}</td>
                     <td>{{ contact.email }}</td>
-                    <td><a href="{% url 'edit_contact' contact.id %}">Editar</a></td>
-                    <td><a href="{% url 'delete_contact' contact.id %}" onclick="return confirm('¿Estás seguro de que deseas eliminar este contacto?');">Borrar</a></td>
+                    <td><a href="{% url 'edit_contact' contact.id %}">&#x1F589;</a></td>
+                    <td><a href="{% url 'delete_contact' contact.id %}" onclick="return confirm('¿Estás seguro de que deseas eliminar este contacto?');">&#x1F5D1;</a></td>
                 </tr>
             {% endfor %}
         </tbody>

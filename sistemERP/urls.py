@@ -29,4 +29,9 @@ urlpatterns = [
     path('view_contacts/', views.view_contacts, name='view_contacts'),
     path('edit_contact/<int:contact_id>/', views.edit_contact, name='edit_contact'),
     path('delete_contact/<int:contact_id>/', views.delete_contact, name='delete_contact'),
+    path('create_group/', views.create_group, name='create_group'),
+    path('view_groups/', views.view_groups, name='view_groups'),
+    path('view_group_members/<int:group_id>/', views.view_group_members, name='view_group_members'),
+    path('delete_group/<int:group_id>/', views.delete_group, name='delete_group'),
+
 ]

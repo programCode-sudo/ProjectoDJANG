@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect  # type: ignore
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm  # type: ignore
 from django.contrib.auth.models import User  # type: ignore
-from django.http import HttpResponse  # type: ignore
+from django.http import HttpResponse, HttpResponseNotAllowed  # type: ignore
 from django.contrib.auth import login, logout, authenticate  # type: ignore
 from django.contrib.auth.decorators import login_required  # type: ignore
 from .models import Contact
 from .forms import ContactForm
+from .forms import Group,GroupForm
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 
@@ -107,3 +108,36 @@ def edit_contact(request, contact_id):
     else:
         form = ContactForm(instance=contact)
     return render(request, 'create_contact.html', {'form': form})
+
+@login_required
+def create_group(request):
+    message = None
+    if request.method == 'POST':
+        form = GroupForm(request.POST)
+        if form.is_valid():
+            group = form.save()
+            message = 'Group created successfully!'
+    else:
+        form = GroupForm()
+    return render(request, 'create_group.html', {'form': form, 'message': message})
+
+@login_required
+def view_groups(request):
+    groups = Group.objects.all()
+    return render(request, 'view_groups.html', {'groups': groups})
+
+@login_required
+def view_group_members(request, group_id):
+    group = get_object_or_404(Group, id=group_id)
+    members = group.members.all()
+    return render(request, 'view_group_members.html', {'group': group, 'members': members})
+
+@login_required
+def delete_group(request, group_id):
+    group = get_object_or_404(Group, id=group_id)
+    if request.method == 'POST':
+        group.delete()
+        return redirect('view_groups')
+    return HttpResponseNotAllowed(['POST'])
+
+

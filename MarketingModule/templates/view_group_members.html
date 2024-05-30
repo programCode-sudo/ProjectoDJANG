@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Members</title>
+</head>
+<body>
+    <h1>Group Members - {{ group.name }}</h1>
+    <ul>
+        {% for member in members %}
+        <li>{{ member.first_name }} {{ member.last_name }} - {{ member.email }} - {{ member.phone_number }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

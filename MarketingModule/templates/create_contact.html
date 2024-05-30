@@ -1,17 +1,21 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Contact</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/createContact.css' %}">
 </head>
 <body>
-    <h1>Create Contact</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Guardar</button>
-        <a href="{% url 'marketing' %}">Cancelar</a>
-    </form>
+    <div class="card">
+        <h1>Create Contact</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="button"><span class="icon">&#x1F4BE;</span> Guardar</button>
+            <a href="{% url 'marketing' %}" class="button cancel"><span class="icon">&#x274C;</span> Cancelar</a>
+        </form>
+    </div>
 </body>
 </html>

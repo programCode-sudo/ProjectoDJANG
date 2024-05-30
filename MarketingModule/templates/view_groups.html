@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groups</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/viewGroups.css' %}">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .group-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .group-card {
+            position: relative;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: calc(50% - 20px);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .group-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: #f39c12;
+            width: 0;
+            height: 0;
+            border-radius: 0 0 0 50px;
+            transition: width 0.3s ease, height 0.3s ease;
+            z-index: -1; /* Asegura que esté detrás del contenido de la tarjeta */
+        }
+        .group-card:hover::before {
+            width: 100%;
+            height: 100%;
+        }
+        .group-card:hover {
+            transform: translateY(-5px);
+        }
+        .group-card h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .group-card p {
+            color: #777;
+            margin-bottom: 15px;
+        }
+        .group-card a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        .group-card a:hover {
+            color: #2980b9;
+        }
+        .delete-form {
+            display: inline-block;
+        }
+        .delete-form button {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .delete-form button:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Groups</h1>
+        <div class="group-cards">
+            {% for group in groups %}
+            <div class="group-card">
+                <h2>{{ group.name }}</h2>
+                <p><i class="fas fa-users"></i> Number of members: {{ group.members.count }}</p>
+                <a href="{% url 'view_group_members' group.id %}">View Members</a>
+                <form class="delete-form" action="{% url 'delete_group' group.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Delete Group</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
+
+
