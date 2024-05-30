@@ -22,6 +22,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
+            justify-content: space-between; /* Para distribuir los elementos uniformemente */
         }
         .group-card {
             position: relative;
@@ -29,9 +30,10 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            width: calc(50% - 20px);
+            width: calc(28% - 20px); /* Ancho del 33.33% para tres tarjetas en una fila */
             margin-bottom: 20px;
             overflow: hidden;
+            text-align:center;
         }
         .group-card::before {
             content: "";
@@ -84,6 +86,10 @@
         .delete-form button:hover {
             background-color: #c0392b;
         }
+
+        h1{
+            text-align:center;
+        }
     </style>
 </head>
 <body>
@@ -95,6 +101,7 @@
                 <h2>{{ group.name }}</h2>
                 <p><i class="fas fa-users"></i> Number of members: {{ group.members.count }}</p>
                 <a href="{% url 'view_group_members' group.id %}">View Members</a>
+                <hr>
                 <form class="delete-form" action="{% url 'delete_group' group.id %}" method="post">
                     {% csrf_token %}
                     <button type="submit">Delete Group</button>
@@ -105,5 +112,6 @@
     </div>
 </body>
 </html>
+
 
 
