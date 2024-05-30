@@ -4,6 +4,10 @@ from django.contrib.auth.models import User  # type: ignore
 from django.http import HttpResponse  # type: ignore
 from django.contrib.auth import login, logout, authenticate  # type: ignore
 from django.contrib.auth.decorators import login_required  # type: ignore
+from .models import Contact
+from .forms import ContactForm
+from django.core.paginator import Paginator
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 
@@ -66,3 +70,40 @@ def marketing(request):
 def marketing(request):
     user = request.user  # Obtenemos el usuario autenticado
     return render(request, 'marketing.html', {'user': user})
+
+@login_required
+def create_contact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('marketing')
+    else:
+        form = ContactForm()
+    return render(request, 'create_contact.html', {'form': form})
+
+@login_required
+def delete_contact(request, contact_id):
+    contact = Contact.objects.get(id=contact_id)
+    contact.delete()
+    return redirect('marketing')
+
+@login_required
+def view_contacts(request):
+    contacts = Contact.objects.all()
+    paginator = Paginator(contacts, 10)  # Muestra 10 contactos por página
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'view_contacts.html', {'page_obj': page_obj})
+
+@login_required
+def edit_contact(request, contact_id):
+    contact = get_object_or_404(Contact, id=contact_id)
+    if request.method == 'POST':
+        form = ContactForm(request.POST, instance=contact)
+        if form.is_valid():
+            form.save()
+            return redirect('view_contacts')
+    else:
+        form = ContactForm(instance=contact)
+    return render(request, 'create_contact.html', {'form': form})

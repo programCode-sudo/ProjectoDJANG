@@ -25,4 +25,8 @@ urlpatterns = [
     path('login/', views.signin, name='login'),
     path('logout/', views.signout, name='logout'),
     path('marketing/', views.marketing, name='marketing'),
+    path('create_contact/', views.create_contact, name='create_contact'),
+    path('view_contacts/', views.view_contacts, name='view_contacts'),
+    path('edit_contact/<int:contact_id>/', views.edit_contact, name='edit_contact'),
+    path('delete_contact/<int:contact_id>/', views.delete_contact, name='delete_contact'),
 ]
