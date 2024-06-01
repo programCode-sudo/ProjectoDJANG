@@ -31,4 +31,10 @@ class MarketingPorCorreoPersonal(MarketingPorCorreo):
     def __str__(self):
         return f"{self.emailDeDestino.email} - {self.tipoCorreo}"
 
+class CampañaDeMarketing(MarketingPorCorreo):
+    nombre = models.CharField(max_length=100)
+    grupo = models.ForeignKey(Group, on_delete=models.CASCADE)
+    numeroDeIntegrantes = models.PositiveIntegerField()
 
+    def __str__(self):
+        return self.nombre

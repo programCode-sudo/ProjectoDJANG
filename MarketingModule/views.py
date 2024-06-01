@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseNotAllowed  # type: ignore
 from django.contrib.auth import login, logout, authenticate  # type: ignore
 from django.contrib.auth.decorators import login_required  # type: ignore
 from .models import Contact
-from .forms import ContactForm, MarketingPorCorreoPersonalForm
+from .forms import ContactForm, MarketingPorCorreoPersonalForm, CampañaDeMarketingForm
 from .forms import Group,GroupForm
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
@@ -161,3 +161,28 @@ def marketing_por_email(request):
     else:
         form = MarketingPorCorreoPersonalForm()
     return render(request, 'marketing_por_email.html', {'form': form})
+
+
+
+@login_required
+def crear_campaña_marketing(request):
+    if request.method == 'POST':
+        form = CampañaDeMarketingForm(request.POST)
+        if form.is_valid():
+            campaña = form.save(commit=False)
+            grupo = campaña.grupo
+            campaña.numeroDeIntegrantes = grupo.members.count()
+            campaña.save()
+            # Enviar correos electrónicos
+            for member in grupo.members.all():
+                send_mail(
+                    subject=f"Nuevo {campaña.tipoCorreo}",
+                    message=campaña.cuerpoDelCorreo,
+                    from_email='your_email@example.com',
+                    recipient_list=[member.email],
+                    fail_silently=False,
+                )
+            return redirect('marketing')
+    else:
+        form = CampañaDeMarketingForm()
+    return render(request, 'crear_campaña_marketing.html', {'form': form})
