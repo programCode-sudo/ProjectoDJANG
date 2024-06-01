@@ -16,3 +16,19 @@ class Group(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class MarketingPorCorreo(models.Model):
+    cuerpoDelCorreo = models.TextField()
+    tipoCorreo = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.tipoCorreo
+
+class MarketingPorCorreoPersonal(MarketingPorCorreo):
+    emailDeDestino = models.ForeignKey(Contact, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.emailDeDestino.email} - {self.tipoCorreo}"
+
+

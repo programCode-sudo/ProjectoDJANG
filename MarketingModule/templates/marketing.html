@@ -12,7 +12,7 @@
     <nav class="navbar">
         <div>
             <button onclick="window.location.href='#'" style=margin-left:20px>Campañas de Marketing</button>
-            <button onclick="window.location.href='#'">Marketing por email</button>
+            <button onclick="window.location.href='{% url 'marketing_por_email' %}'">Marketing por email</button>
             <button onclick="window.location.href='#'">Marketign por SMS</button>
             <button onclick="window.location.href='#'">Contact</button>
         </div>
@@ -38,9 +38,10 @@
 
     <!-- Contenido principal -->
     <div class="main-content">
+        {% block content %}
         <h1>Welcome to the Marketing Page</h1>
         <p>This is the content of the marketing page.</p>
-        <!-- Agrega más contenido según sea necesario -->
+        {% endblock %}
     </div>
 
     <!-- Script para controlar la visibilidad del sidebar -->

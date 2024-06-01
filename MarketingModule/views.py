@@ -5,10 +5,12 @@ from django.http import HttpResponse, HttpResponseNotAllowed  # type: ignore
 from django.contrib.auth import login, logout, authenticate  # type: ignore
 from django.contrib.auth.decorators import login_required  # type: ignore
 from .models import Contact
-from .forms import ContactForm
+from .forms import ContactForm, MarketingPorCorreoPersonalForm
 from .forms import Group,GroupForm
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
+from django.core.mail import send_mail
+from django.urls import reverse
 
 # Create your views here.
 
@@ -141,3 +143,21 @@ def delete_group(request, group_id):
     return HttpResponseNotAllowed(['POST'])
 
 
+@login_required
+def marketing_por_email(request):
+    if request.method == 'POST':
+        form = MarketingPorCorreoPersonalForm(request.POST)
+        if form.is_valid():
+            marketing_email = form.save()
+            # Enviar correo
+            send_mail(
+                subject=f"Nuevo {marketing_email.tipoCorreo}",
+                message=marketing_email.cuerpoDelCorreo,
+                from_email='your_email@example.com',
+                recipient_list=[marketing_email.emailDeDestino.email],
+                fail_silently=False,
+            )
+            return redirect('marketing')
+    else:
+        form = MarketingPorCorreoPersonalForm()
+    return render(request, 'marketing_por_email.html', {'form': form})

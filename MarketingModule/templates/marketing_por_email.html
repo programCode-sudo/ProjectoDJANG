@@ -1,0 +1,72 @@
+{% extends "marketing.html" %}
+
+{% block content %}
+<style>
+    /* marketingStyles.css */
+
+/* Estilo general del formulario */
+form {
+    max-width: 400px;
+   
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top:5%;
+    margin-left:25%;
+}
+
+/* Estilo para el título */
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+textarea{
+    margin-top:25px;
+}
+
+/* Estilo para los campos de entrada */
+input[type="text"], select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Estilo para el botón */
+button[type="submit"] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Cambiar color al botón cuando está siendo presionado */
+button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Estilo para el contenido del formulario */
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+</style>
+<form method="post">
+    <h1>Marketing por Email</h1>
+    <hr>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enviar</button>
+</form>
+{% endblock %}

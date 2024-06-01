@@ -128,3 +128,11 @@ STATICFILES_DIRS = [ os.path.join(BASE_DIR,'static')]
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Configuración del backend de correo SMTP
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'brandonmonterrosa3443@gmail.com'
+EMAIL_HOST_PASSWORD = 'ntgt yxjp vsni vwzn' #to configurate this password turn on two athentication add the app with the name Django send mail
