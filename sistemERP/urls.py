@@ -35,4 +35,7 @@ urlpatterns = [
     path('delete_group/<int:group_id>/', views.delete_group, name='delete_group'),
     path('marketing_por_email/', views.marketing_por_email, name='marketing_por_email'),
     path('crear_campaña_marketing/', views.crear_campaña_marketing, name='crear_campaña_marketing'),
+    path('ver_campañas_marketing/', views.ver_campañas_marketing, name='ver_campañas_marketing'),
+    path('editar_campaña_marketing/<int:campaña_id>/', views.editar_campaña_marketing, name='editar_campaña_marketing'),
+    path('eliminar_campaña_marketing/<int:campaña_id>/', views.eliminar_campaña_marketing, name='eliminar_campaña_marketing'),
 ]

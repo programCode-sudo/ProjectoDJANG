@@ -1,0 +1,31 @@
+<!-- templates/ver_campañas_marketing.html -->
+{% extends 'marketing.html' %}
+
+{% block content %}
+<h2>Ver Campañas de Marketing</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Número de Integrantes</th>
+            <th>Tipo de Correo</th>
+            <th>Nombre del Grupo</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for campaña in campañas %}
+        <tr>
+            <td>{{ campaña.nombre }}</td>
+            <td>{{ campaña.numeroDeIntegrantes }}</td>
+            <td>{{ campaña.tipoCorreo }}</td>
+            <td>{{ campaña.grupo.name }}</td>
+            <td>
+                <button onclick="window.location.href='{% url 'editar_campaña_marketing' campaña.id %}'">Editar</button>
+                <button onclick="window.location.href='{% url 'eliminar_campaña_marketing' campaña.id %}'">Eliminar</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -63,6 +63,7 @@ button[type="submit"]:hover {
 }
 
 </style>
+
 <form method="post">
     <h2>Crear Campaña de Marketing</h2>
     <hr>
@@ -70,4 +71,10 @@ button[type="submit"]:hover {
     {{ form.as_p }}
     <button type="submit">Enviar Campaña</button>
 </form>
+
+
+<div class="buttons">
+    <button onclick="window.location.href='{% url 'ver_campañas_marketing' %}'">Ver Tabla de Campañas</button>
+    <button onclick="window.location.href='{% url 'crear_campaña_marketing' %}'">Crear Campaña</button>
+</div>
 {% endblock %}

@@ -4,7 +4,7 @@ from django.contrib.auth.models import User  # type: ignore
 from django.http import HttpResponse, HttpResponseNotAllowed  # type: ignore
 from django.contrib.auth import login, logout, authenticate  # type: ignore
 from django.contrib.auth.decorators import login_required  # type: ignore
-from .models import Contact
+from .models import Contact, CampañaDeMarketing
 from .forms import ContactForm, MarketingPorCorreoPersonalForm, CampañaDeMarketingForm
 from .forms import Group,GroupForm
 from django.core.paginator import Paginator
@@ -186,3 +186,26 @@ def crear_campaña_marketing(request):
     else:
         form = CampañaDeMarketingForm()
     return render(request, 'crear_campaña_marketing.html', {'form': form})
+
+@login_required
+def ver_campañas_marketing(request):
+    campañas = CampañaDeMarketing.objects.all()
+    return render(request, 'ver_campañas_marketing.html', {'campañas': campañas})
+
+@login_required
+def editar_campaña_marketing(request, campaña_id):
+    campaña = get_object_or_404(CampañaDeMarketing, id=campaña_id)
+    if request.method == 'POST':
+        form = CampañaDeMarketingForm(request.POST, instance=campaña)
+        if form.is_valid():
+            form.save()
+            return redirect('ver_campañas_marketing')
+    else:
+        form = CampañaDeMarketingForm(instance=campaña)
+    return render(request, 'crear_campaña_marketing.html', {'form': form, 'editar': True})
+
+@login_required
+def eliminar_campaña_marketing(request, campaña_id):
+    campaña = get_object_or_404(CampañaDeMarketing, id=campaña_id)
+    campaña.delete()
+    return redirect('ver_campañas_marketing')
