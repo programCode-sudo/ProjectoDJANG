@@ -11,10 +11,10 @@
     <!-- Navbar -->
     <nav class="navbar">
         <div>
-            <a href="#">Home</a>
-            <a href="#">About</a>
-            <a href="#">Services</a>
-            <a href="#">Contact</a>
+            <button onclick="window.location.href='#'" style=margin-left:20px>Campañas de Marketing</button>
+            <button onclick="window.location.href='#'">Marketing por email</button>
+            <button onclick="window.location.href='#'">Marketign por SMS</button>
+            <button onclick="window.location.href='#'">Contact</button>
         </div>
         <!-- Botón de toggle para el sidebar -->
         <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
@@ -22,17 +22,18 @@
 
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
-        <h2>{% if user.is_authenticated %}
-            <div class="user-info">
-                <img width="16" height="16" src="https://img.icons8.com/officel/16/user.png" alt="user">
-                <span style="color: white;">{{ user.username }}</span>
-            </div>
-            {% endif %}</h2>
-        
-        <a href="{% url 'create_contact' %}">Crear Contacto</a>
-        <a href="{% url 'view_contacts' %}">Ver</a>
-        <a href="{% url 'create_group' %}">Crear Grupo</a>
-        <a href="{% url 'view_groups' %}">Mostrar Grupos</a>
+        <div class="sidebar-content">
+            <h2>{% if user.is_authenticated %}
+                <div class="user-info">
+                    <img width="16" height="16" src="https://img.icons8.com/officel/16/user.png" alt="user">
+                    <span style="color: white;">{{ user.username }}</span>
+                </div>
+                {% endif %}</h2>
+            <a href="{% url 'create_contact' %}">Crear Contacto</a>
+            <a href="{% url 'view_contacts' %}">Ver</a>
+            <a href="{% url 'create_group' %}">Crear Grupo</a>
+            <a href="{% url 'view_groups' %}">Mostrar Grupos</a>
+        </div>
     </div>
 
     <!-- Contenido principal -->
