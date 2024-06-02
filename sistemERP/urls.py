@@ -47,4 +47,5 @@ urlpatterns = [
     path('ver_eventos/', views.ver_eventos, name='ver_eventos'),
     path('eliminar_evento/<int:evento_id>/', views.eliminar_evento, name='eliminar_evento'),
     path('publicitar_evento/<int:evento_id>/', views.publicitar_evento, name='publicitar_evento'),
+    path('enviar_sms/', views.enviar_sms, name='enviar_sms'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

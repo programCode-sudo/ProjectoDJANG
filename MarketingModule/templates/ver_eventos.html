@@ -10,7 +10,20 @@
     gap: 20px;
 }
 
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    background-image: url('https://plus.unsplash.com/premium_photo-1681487469745-91d1d8a5836b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+background-size: cover;
+background-repeat: no-repeat;
+background-position: center;
+
+}
+
 .evento-card {
+    margin:auto;
     border: 1px solid #ddd;
     padding: 10px;
     border-radius: 5px;
@@ -53,13 +66,14 @@
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 5px;
+    margin-top:20%;
 }
 
 </style>
-<h2>Ver Eventos</h2>
+<h2 style=text-align:center;>Ver Eventos</h2>
 <div class="eventos-container">
     {% for evento in eventos %}
-    <div class="evento-card">
+    <div class="evento-card" style=background-color:white;>
         <img src="{{ evento.imagen.url }}" alt="Imagen del evento">
         <h3>{{ evento.nombre }}</h3>
         <p>{{ evento.descripcion_breve }}</p>
@@ -77,6 +91,7 @@
                     {% endfor %}
                 </select>
                 <button type="submit">Publicitar</button>
+                <button onclick="ocultarFormulario('{{ evento.id }}')">Ocultar</button>
             </form>
         </div>
     </div>

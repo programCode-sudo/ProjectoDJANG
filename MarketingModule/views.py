@@ -5,20 +5,22 @@ from django.contrib.auth.models import User  # type: ignore
 from django.http import Http404, HttpResponse, HttpResponseNotAllowed  # type: ignore
 from django.contrib.auth import login, logout, authenticate  # type: ignore
 from django.contrib.auth.decorators import login_required  # type: ignore
-from .models import Contact, Evento, MarketingPorCorreoPersonal, CampañaDeMarketing
-from .forms import ContactForm, EventoForm, MarketingPorCorreoPersonalForm, CampañaDeMarketingForm
-from .forms import Group,GroupForm
+from .models import Contact, Evento, MarketingPorCorreoPersonal, CampañaDeMarketing,Sms
+from .forms import ContactForm, EventoForm, MarketingPorCorreoPersonalForm, SmsForm, CampañaDeMarketingForm,Group,GroupForm
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
 from django.urls import reverse
 from django.core.mail import EmailMessage
+from twilio.rest import Client
+from twilio.base.exceptions import TwilioRestException
+from django.contrib import messages
 # Create your views here.
 
 def home(request):
     return render(request, 'home.html')
 
-
+#----------------------------------------------------------------------------------------------------------------------------
 def signup(request):
     if request.method == 'GET':
         return render(request, 'signup.html', {
@@ -61,7 +63,8 @@ def signout(request):
     logout(request)
     return redirect('home')
 
-
+#-------------------------------------------------------------------------------------------------------------------------
+#permisos
 def marketing(request):
     if request.user.is_authenticated:
         return render(request, 'marketing.html')
@@ -75,6 +78,9 @@ def marketing(request):
     user = request.user  # Obtenemos el usuario autenticado
     return render(request, 'marketing.html', {'user': user})
 
+#-------------------------------------------------------------------------------------------------------------------------
+
+#crud de contactos
 @login_required
 def create_contact(request):
     if request.method == 'POST':
@@ -124,6 +130,9 @@ def create_group(request):
         form = GroupForm()
     return render(request, 'create_group.html', {'form': form, 'message': message})
 
+#--------------------------------------------------------------------------------------------------------------------------
+
+#crud de grupos
 @login_required
 def view_groups(request):
     groups = Group.objects.all()
@@ -143,7 +152,9 @@ def delete_group(request, group_id):
         return redirect('view_groups')
     return HttpResponseNotAllowed(['POST'])
 
+#------------------------------------------------------------------------------------------------------------------------
 
+#funcionalidad de envio de correos personales
 @login_required
 def marketing_por_email(request):
     if request.method == 'POST':
@@ -186,9 +197,9 @@ def eliminar_marketing_por_email(request, email_id):
     marketing_email.delete()
     return redirect('ver_marketing_por_email')
 
+#--------------------------------------------------------------------------------------------------------------------------
 
-
-
+#campañas de marketing
 @login_required
 def crear_campaña_marketing(request):
     if request.method == 'POST':
@@ -235,6 +246,9 @@ def eliminar_campaña_marketing(request, campaña_id):
     campaña.delete()
     return redirect('ver_campañas_marketing')
 
+#----------------------------------------------------------------------------------------------------------------------------
+
+#crud de eventos y envio de correos
 @login_required
 def crear_evento(request):
     if request.method == 'POST':
@@ -293,3 +307,33 @@ def publicitar_evento(request, evento_id):
     else:
         grupos = Group.objects.all()  # Obtener todos los grupos
         return render(request, 'publicitar_evento.html', {'event': evento, 'groups': grupos})
+    
+#-------------------------------------------------------------------------------------------------------------------------
+def enviar_sms(request):
+    if request.method == 'POST':
+        form = SmsForm(request.POST)
+        if form.is_valid():
+            sms = form.save(commit=False)
+            sms.save()
+
+            # Asegúrate de que el número de teléfono esté en el formato E.164
+            phone_number = sms.contacto.phone_number
+            if not phone_number.startswith('+503'):
+                phone_number = '+503' + phone_number.lstrip('0')  # Agrega el código de país para El Salvador
+
+            client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+            try:
+                client.messages.create(
+                    to=phone_number,
+                    from_=settings.TWILIO_PHONE_NUMBER,
+                    body=f"{sms.tema}: {sms.cuerpo}"
+                )
+                messages.success(request, 'SMS enviado exitosamente')
+            except TwilioRestException as e:
+                messages.error(request, f"Error al enviar el SMS: {e.msg}")
+
+            return redirect('enviar_sms')
+    else:
+        form = SmsForm()
+
+    return render(request, 'enviar_sms.html', {'form': form})

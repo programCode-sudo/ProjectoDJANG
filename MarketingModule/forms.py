@@ -1,5 +1,5 @@
 from django import forms
-from .models import Evento, Group,Contact,MarketingPorCorreoPersonal, CampañaDeMarketing
+from .models import Evento, Group,Contact,MarketingPorCorreoPersonal, CampañaDeMarketing, Sms
 
 
 class ContactForm(forms.ModelForm):
@@ -67,3 +67,14 @@ class EventoForm(forms.ModelForm):
         super(EventoForm, self).__init__(*args, **kwargs)
         self.fields['fecha_inicio'].widget.attrs.update({'class': 'datetime-input'})
         self.fields['fecha_fin'].widget.attrs.update({'class': 'datetime-input'})
+
+class SmsForm(forms.ModelForm):
+    class Meta:
+        model = Sms
+        fields = ['tema', 'cuerpo', 'contacto']
+
+    contacto = forms.ModelChoiceField(
+        queryset=Contact.objects.all(),
+        label="Contacto",
+        widget=forms.Select
+    )

@@ -7,15 +7,15 @@
     <title>Marketing Page</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/marketingStyles.css' %}">
 </head>
+<style></style>
 <body>
     <!-- Navbar -->
     <nav class="navbar">
         <div>
-            <button onclick="window.location.href='{% url 'crear_campaña_marketing' %}'">Campañas de Marketing</button>
+            <button style=margin-left:20px; onclick="window.location.href='{% url 'crear_campaña_marketing' %}'">Campañas de Marketing</button>
             <button onclick="window.location.href='{% url 'marketing_por_email' %}'">Marketing por email</button>
-            <button onclick="window.location.href='#'">Marketign por SMS</button>
             <button onclick="window.location.href='{% url 'crear_evento' %}'">Eventos</button>
-
+            <button onclick="window.location.href='{% url 'enviar_sms' %}'">Marketing por SMS</button>
         </div>
         <!-- Botón de toggle para el sidebar -->
         <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
@@ -26,7 +26,7 @@
         <div class="sidebar-content">
             <h2>{% if user.is_authenticated %}
                 <div class="user-info">
-                    <img width="16" height="16" src="https://img.icons8.com/officel/16/user.png" alt="user">
+                    <img style=margin-top:20px; width="16" height="16" src="https://img.icons8.com/officel/16/user.png" alt="user">
                     <span style="color: white;">{{ user.username }}</span>
                 </div>
                 {% endif %}</h2>
@@ -34,6 +34,7 @@
             <a href="{% url 'view_contacts' %}">Ver</a>
             <a href="{% url 'create_group' %}">Crear Grupo</a>
             <a href="{% url 'view_groups' %}">Mostrar Grupos</a>
+            <a href="{% url 'home' %}">Inicio</a>
         </div>
     </div>
 

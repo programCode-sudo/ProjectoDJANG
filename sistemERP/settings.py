@@ -142,3 +142,4 @@ EMAIL_HOST_PASSWORD = 'ntgt yxjp vsni vwzn' #to configurate this password turn o
 #images
 MEDIA_ROOT = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+

@@ -2,6 +2,108 @@
 {% extends 'marketing.html' %}
 
 {% block content %}
+<style>
+    <style>
+        body {
+            background: rgb(2,0,36);
+            background: radial-gradient(circle, rgba(2,0,36,0.891281512605042) 16%, rgba(39,9,121,0.768032212885154) 67%, rgba(0,212,255,1) 100%);
+        }
+    
+        /* Estilos para la tabla */
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://images.pexels.com/photos/2697050/pexels-photo-2697050.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'); /* Reemplaza 'ruta/a/la/imagen.jpg' con la ruta de tu imagen de fondo */
+            background-size: cover;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+    
+        h1 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 40px; /* Aumenta el espacio inferior */
+            font-weight: bold; /* Hace que el título se vea más fuerte */
+            text-transform: uppercase; /* Convierte el texto en mayúsculas */
+        }
+       
+    
+        table {
+            border-collapse: collapse;
+            background-color: rgba(255, 255, 255, 0.7); /* Color de fondo con transparencia */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            animation: fadeIn 1s ease;
+            margin-right: 70px; /* Ajusta el margen derecho de la tabla */
+            margin-top:30px;
+        }
+    
+        th, td {
+            text-align:center;
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+    
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+    
+        td {
+            color: #333;
+            text-align:center;
+        }
+    
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    
+        tr:hover {
+            background-color: #ddd;
+        }
+    
+        a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+    
+        a:hover {
+            color: #0056b3;
+        }
+    
+        /* Estilo para los botones */
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+    
+        button:hover {
+            background-color: #45a049;
+        }
+    
+        /* Animación para la tabla */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        h2{
+            text-align:center;
+        }
+    </style>
+</style>
 <h2>Ver Correos de Marketing Personal</h2>
 <table>
     <thead>

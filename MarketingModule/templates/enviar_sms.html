@@ -1,0 +1,135 @@
+{% extends 'marketing.html' %}
+
+{% block content %}
+<style>
+    body {
+        background-image: url('https://images.unsplash.com/photo-1522096823084-2d1aa8411c13?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    
+    .card {
+        max-width: 400px;
+        padding: 20px;
+        background-color: #f0f0f0;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        margin:auto;
+        margin-top:10px;
+    }
+    
+    h2 {
+        margin-bottom: 20px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        transition: 0.3s;
+        outline: none;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    textarea:focus {
+        border-color: #4CAF50;
+    }
+    
+    .alert-container {
+        margin-bottom: 20px;
+    }
+    
+    .alert {
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+    }
+    
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+    
+    .alert-error {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    /* Estilo para el botón */
+    button[type="submit"] {
+        width: 100%;
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    /* Estilo para los botones */
+    .buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .Actual {
+        background-color: #007bff; /* Color de fondo empresarial */
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 14px 20px;
+        cursor: pointer;
+    }
+
+    .Mirar {
+        background-color: #ffc107; /* Color de fondo empresarial */
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 14px 20px;
+        cursor: pointer;
+    }
+</style>
+    
+<div class="container">
+    <div class="card">
+        {% if messages %}
+            <div class="alert-container">
+                {% for message in messages %}
+                    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <form method="post">
+            <h2>Enviar SMS</h2>
+            <hr>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success">Enviar SMS</button>
+        </form>
+        <div class="buttons">
+            <button class="Actual" onclick="window.location.href='{% url 'enviar_sms' %}'">Crear SMS</button>
+            <button class="Mirar" onclick="window.location.href='#'">Ver SMS Enviados</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

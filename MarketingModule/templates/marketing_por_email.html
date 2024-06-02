@@ -2,65 +2,79 @@
 
 {% block content %}
 <style>
-    /* marketingStyles.css */
+    /* Estilo general del formulario */
+    body {
+        background-image: url('https://images.unsplash.com/photo-1608085021901-62ec9e8f2c03?q=80&w=1799&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
 
-/* Estilo general del formulario */
-form {
-    max-width: 400px;
-   
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top:5%;
-    margin-left:25%;
-}
+    form {
+        max-width: 400px;
+        padding: 20px;
+        background-color: #f4f4f4; /* Cambio de color de fondo a gris */
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin:auto;
+    }
 
-/* Estilo para el título */
-h1 {
-    text-align: center;
-    margin-bottom: 20px;
-}
+    /* Estilo para el título */
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
 
-textarea{
-    margin-top:25px;
-}
+    /* Estilo para los campos de entrada */
+    input[type="text"],
+    select {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
 
-/* Estilo para los campos de entrada */
-input[type="text"], select {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
+    /* Estilo para el botón */
+    button[type="submit"] {
+        width: 100%;
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
 
-/* Estilo para el botón */
-button[type="submit"] {
-    width: 100%;
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
+    /* Cambiar color al botón cuando está siendo presionado */
+    button[type="submit"]:hover {
+        background-color: #45a049;
+    }
 
-/* Cambiar color al botón cuando está siendo presionado */
-button[type="submit"]:hover {
-    background-color: #45a049;
-}
+    /* Estilo para el contenido del formulario */
+    .content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
 
-/* Estilo para el contenido del formulario */
-.content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
+    /* Estilo para los botones */
+    .buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
 
+    .buttons button {
+        flex: 1;
+        margin: 0 5px;
+    }
+    textarea{
+        margin-top:5px;
+    }
 </style>
 <form method="post">
     <h1>Marketing por Email</h1>
@@ -68,9 +82,10 @@ button[type="submit"]:hover {
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Enviar</button>
+    <div class="buttons">
+        <button onclick="window.location.href='{% url 'ver_marketing_por_email' %}'">Ver Tabla de Correos</button>
+        <button onclick="window.location.href='{% url 'marketing_por_email' %}'">Crear Correo</button>
+    </div>
 </form>
-<div class="buttons">
-    <button onclick="window.location.href='{% url 'ver_marketing_por_email' %}'">Ver Tabla de Correos</button>
-    <button onclick="window.location.href='{% url 'marketing_por_email' %}'">Crear Correo</button>
-</div>
+</style>
 {% endblock %}

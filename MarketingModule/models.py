@@ -49,3 +49,13 @@ class Evento(models.Model):
 
     def __str__(self):
         return self.nombre
+
+
+class Sms(models.Model):
+    tema = models.CharField(max_length=100)
+    cuerpo = models.TextField()
+    contacto = models.ForeignKey(Contact, on_delete=models.CASCADE)
+    fecha_envio = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.tema} - {self.contacto}"
