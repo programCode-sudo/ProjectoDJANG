@@ -38,3 +38,14 @@ class CampañaDeMarketing(MarketingPorCorreo):
 
     def __str__(self):
         return self.nombre
+
+
+class Evento(models.Model):
+    nombre = models.CharField(max_length=200)
+    fecha_inicio = models.DateTimeField()
+    fecha_fin = models.DateTimeField()
+    descripcion_breve = models.TextField()
+    imagen = models.ImageField(upload_to='eventos/')
+
+    def __str__(self):
+        return self.nombre

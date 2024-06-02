@@ -1,0 +1,29 @@
+<!-- templates/ver_marketing_por_email.html -->
+{% extends 'marketing.html' %}
+
+{% block content %}
+<h2>Ver Correos de Marketing Personal</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Nombre del Contacto</th>
+            <th>Correo del Contacto</th>
+            <th>Tipo de Correo</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for email in emails %}
+        <tr>
+            <td>{{ email.emailDeDestino.first_name }} {{ email.emailDeDestino.last_name }}</td>
+            <td>{{ email.emailDeDestino.email }}</td>
+            <td>{{ email.tipoCorreo }}</td>
+            <td>
+                <button onclick="window.location.href='{% url 'editar_marketing_por_email' email.id %}'">Editar</button>
+                <button onclick="window.location.href='{% url 'eliminar_marketing_por_email' email.id %}'">Eliminar</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

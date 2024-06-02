@@ -1,0 +1,87 @@
+{% extends 'marketing.html' %}
+
+{% block content %}
+<style>
+    .event-form {
+        width: 400px;
+        margin: 0 auto;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .event-form h2 {
+        text-align: center;
+        color: #333;
+    }
+    
+    .event-form form {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .event-form form button[type="submit"] {
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    .event-form form button[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+    
+    .buttons {
+        text-align: center;
+        margin-top: 20px;
+    }
+    
+    .buttons button {
+        margin: 0 10px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    .buttons button:hover {
+        background-color: #0056b3;
+    }
+    
+</style>
+<div class="event-form">
+    <h2>Crear Evento</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Crear Evento</button>
+    </form>
+</div>
+
+<div class="buttons">
+    <button onclick="window.location.href='{% url 'ver_eventos' %}'">Ver Eventos</button>
+    <button onclick="window.location.href='{% url 'crear_evento' %}'">Crear Evento</button>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateInputs = document.querySelectorAll('.datetime-input');
+        dateInputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.type = 'datetime-local';
+            });
+            input.addEventListener('blur', function() {
+                if (this.value === '') {
+                    this.type = 'text';
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -69,4 +69,8 @@ button[type="submit"]:hover {
     {{ form.as_p }}
     <button type="submit">Enviar</button>
 </form>
+<div class="buttons">
+    <button onclick="window.location.href='{% url 'ver_marketing_por_email' %}'">Ver Tabla de Correos</button>
+    <button onclick="window.location.href='{% url 'marketing_por_email' %}'">Crear Correo</button>
+</div>
 {% endblock %}

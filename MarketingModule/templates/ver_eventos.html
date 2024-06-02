@@ -1,0 +1,95 @@
+<!-- templates/ver_eventos.html -->
+{% extends 'marketing.html' %}
+
+{% block content %}
+<style>
+    /* static/css/marketingStyles.css */
+.eventos-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.evento-card {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    width: 300px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.evento-card img {
+    max-width: 100%;
+    border-radius: 5px;
+}
+
+.evento-card h3 {
+    margin-top: 10px;
+}
+
+.evento-card p {
+    margin: 5px 0;
+}
+
+.buttons {
+    margin-bottom: 20px;
+}
+
+.buttons button {
+    margin-right: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+.publicitar-form {
+    display: none; /* Ocultar el formulario inicialmente */
+    position: absolute; /* Posición absoluta para flotar sobre otros elementos */
+    top: 50%; /* Alineado verticalmente al centro */
+    left: 50%; /* Alineado horizontalmente al centro */
+    transform: translate(-50%, -50%); /* Centrar el formulario */
+    z-index: 999; /* Z-index superior para que flote sobre otros elementos */
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+</style>
+<h2>Ver Eventos</h2>
+<div class="eventos-container">
+    {% for evento in eventos %}
+    <div class="evento-card">
+        <img src="{{ evento.imagen.url }}" alt="Imagen del evento">
+        <h3>{{ evento.nombre }}</h3>
+        <p>{{ evento.descripcion_breve }}</p>
+        <p>Fecha de Inicio: {{ evento.fecha_inicio }}</p>
+        <p>Fecha de Fin: {{ evento.fecha_fin }}</p>
+        <button onclick="window.location.href='{% url 'eliminar_evento' evento.id %}'">Eliminar</button>
+        <button onclick="mostrarFormulario('{{ evento.id }}')">Publicitar</button>
+        <!-- Formulario de publicitar -->
+        <div class="publicitar-form" id="publicitar-form-{{ evento.id }}">
+            <form method="post" action="{% url 'publicitar_evento' evento.id %}">
+                {% csrf_token %}
+                <select name="grupo" id="grupo">
+                    {% for group in groups %}
+                        <option value="{{ group.id }}">{{ group.name }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Publicitar</button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    function mostrarFormulario(eventoId) {
+        document.getElementById('publicitar-form-' + eventoId).style.display = 'block';
+    }
+
+    function ocultarFormulario(eventoId) {
+        document.getElementById('publicitar-form-' + eventoId).style.display = 'none';
+    }
+</script>
+{% endblock %}

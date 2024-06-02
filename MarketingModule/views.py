@@ -1,17 +1,18 @@
+from django.conf import settings
 from django.shortcuts import render, redirect  # type: ignore
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm  # type: ignore
 from django.contrib.auth.models import User  # type: ignore
-from django.http import HttpResponse, HttpResponseNotAllowed  # type: ignore
+from django.http import Http404, HttpResponse, HttpResponseNotAllowed  # type: ignore
 from django.contrib.auth import login, logout, authenticate  # type: ignore
 from django.contrib.auth.decorators import login_required  # type: ignore
-from .models import Contact, CampañaDeMarketing
-from .forms import ContactForm, MarketingPorCorreoPersonalForm, CampañaDeMarketingForm
+from .models import Contact, Evento, MarketingPorCorreoPersonal, CampañaDeMarketing
+from .forms import ContactForm, EventoForm, MarketingPorCorreoPersonalForm, CampañaDeMarketingForm
 from .forms import Group,GroupForm
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
 from django.urls import reverse
-
+from django.core.mail import EmailMessage
 # Create your views here.
 
 def home(request):
@@ -162,6 +163,30 @@ def marketing_por_email(request):
         form = MarketingPorCorreoPersonalForm()
     return render(request, 'marketing_por_email.html', {'form': form})
 
+@login_required
+def ver_marketing_por_email(request):
+    emails = MarketingPorCorreoPersonal.objects.all()
+    return render(request, 'ver_marketing_por_email.html', {'emails': emails})
+
+@login_required
+def editar_marketing_por_email(request, email_id):
+    marketing_email = get_object_or_404(MarketingPorCorreoPersonal, id=email_id)
+    if request.method == 'POST':
+        form = MarketingPorCorreoPersonalForm(request.POST, instance=marketing_email)
+        if form.is_valid():
+            form.save()
+            return redirect('ver_marketing_por_email')
+    else:
+        form = MarketingPorCorreoPersonalForm(instance=marketing_email)
+    return render(request, 'marketing_por_email.html', {'form': form, 'editar': True})
+
+@login_required
+def eliminar_marketing_por_email(request, email_id):
+    marketing_email = get_object_or_404(MarketingPorCorreoPersonal, id=email_id)
+    marketing_email.delete()
+    return redirect('ver_marketing_por_email')
+
+
 
 
 @login_required
@@ -209,3 +234,62 @@ def eliminar_campaña_marketing(request, campaña_id):
     campaña = get_object_or_404(CampañaDeMarketing, id=campaña_id)
     campaña.delete()
     return redirect('ver_campañas_marketing')
+
+@login_required
+def crear_evento(request):
+    if request.method == 'POST':
+        form = EventoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('ver_eventos')
+        else:
+            # Esto es útil para depurar errores en el formulario
+            print(form.errors)
+    else:
+        form = EventoForm()
+    return render(request, 'crear_evento.html', {'form': form})
+
+@login_required
+def ver_eventos(request):
+    eventos = Evento.objects.all()
+    grupos = Group.objects.all()  # Obtener todos los grupos
+    return render(request, 'ver_eventos.html', {'eventos': eventos, 'groups': grupos})
+
+@login_required
+def eliminar_evento(request, evento_id):
+    evento = get_object_or_404(Evento, id=evento_id)
+    evento.delete()
+    return redirect('ver_eventos')
+
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+
+@login_required
+def publicitar_evento(request, evento_id):
+    evento = get_object_or_404(Evento, id=evento_id)
+    if request.method == 'POST':
+        grupo_id = request.POST.get('grupo')
+        grupo = Group.objects.get(id=grupo_id)
+        
+        # Enviar correos electrónicos a los miembros del grupo
+        for contacto in grupo.members.all():
+            if hasattr(contacto, 'email'):
+                subject = evento.nombre
+                html_content = render_to_string('email_template.html', {'evento': evento})
+                text_content = strip_tags(html_content)  # Strip the html content for the plain text email
+                email = EmailMultiAlternatives(subject, text_content, settings.DEFAULT_FROM_EMAIL, [contacto.email])
+                email.attach_alternative(html_content, "text/html")
+
+                # Adjuntar la imagen al correo electrónico
+                if evento.imagen:
+                    img_data = open(evento.imagen.path, 'rb').read()
+                    email.attach(f'evento_imagen_{evento.id}.png', img_data, 'image/png')
+
+                email.send()
+        
+        # Redireccionar a la página de eventos después de publicitar
+        return redirect('ver_eventos')
+    else:
+        grupos = Group.objects.all()  # Obtener todos los grupos
+        return render(request, 'publicitar_evento.html', {'event': evento, 'groups': grupos})

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Group,Contact,MarketingPorCorreoPersonal, CampañaDeMarketing
+from .models import Evento, Group,Contact,MarketingPorCorreoPersonal, CampañaDeMarketing
 
 
 class ContactForm(forms.ModelForm):
@@ -48,3 +48,22 @@ class CampañaDeMarketingForm(forms.ModelForm):
     class Meta:
         model = CampañaDeMarketing
         fields = ['nombre', 'tipoCorreo', 'cuerpoDelCorreo', 'grupo']
+
+class EventoForm(forms.ModelForm):
+    fecha_inicio = forms.DateTimeField(
+        widget=forms.DateTimeInput(attrs={'type': 'text', 'placeholder': 'DD/MM/YYYY HH:MM'}),
+        input_formats=['%d/%m/%Y %H:%M']
+    )
+    fecha_fin = forms.DateTimeField(
+        widget=forms.DateTimeInput(attrs={'type': 'text', 'placeholder': 'DD/MM/YYYY HH:MM'}),
+        input_formats=['%d/%m/%Y %H:%M']
+    )
+
+    class Meta:
+        model = Evento
+        fields = ['nombre', 'fecha_inicio', 'fecha_fin', 'descripcion_breve', 'imagen']
+
+    def __init__(self, *args, **kwargs):
+        super(EventoForm, self).__init__(*args, **kwargs)
+        self.fields['fecha_inicio'].widget.attrs.update({'class': 'datetime-input'})
+        self.fields['fecha_fin'].widget.attrs.update({'class': 'datetime-input'})
